@@ -14,6 +14,8 @@
 - **express**
 - **date-fns**
 - **uuid**
+- **cookie-parser**
+- **cors**
 
 # DevDependencies
 
