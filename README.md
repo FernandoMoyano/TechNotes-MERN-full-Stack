@@ -16,6 +16,7 @@
 - **uuid**
 - **cookie-parser**
 - **cors**
+- **dotenv**
 
 # DevDependencies
 

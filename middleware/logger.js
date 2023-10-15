@@ -1,9 +1,9 @@
-const { format } = require("data-fns");
+const { format } = require("date-fns");
 const { v4: uuid } = require("uuid");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
 const path = require("path");
-const { log } = require("console");
+
 
 const logEvents = async (message, logFileName) => {
   //fecha hora -minutos-segundos
@@ -13,7 +13,7 @@ const logEvents = async (message, logFileName) => {
 
   try {
     if (!fs.existsSync(path.join(__dirname, "..", "logs"))) {
-      await fsPromises.mkdir(path.join(__dirname, "'..", "logs"));
+      await fsPromises.mkdir(path.join(__dirname, "..", "logs"));
     }
     await fsPromises.appendFile(
       path.join(__dirname, "..", "logs", logFileName),
@@ -30,4 +30,4 @@ const logger = (req, res, next) => {
   next();
 };
 
-module.exports(logEvents, logger);
+module.exports = { logEvents, logger };
