@@ -17,6 +17,7 @@
 - **cookie-parser**
 - **cors**
 - **dotenv**
+- **mongoose**
 
 # DevDependencies
 
