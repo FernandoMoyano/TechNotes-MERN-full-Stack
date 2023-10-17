@@ -18,6 +18,8 @@
 - **cors**
 - **dotenv**
 - **mongoose**
+- **mongoose sequence**
+
 
 # DevDependencies
 
