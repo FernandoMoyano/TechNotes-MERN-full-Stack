@@ -18,7 +18,9 @@
 - **cors**
 - **dotenv**
 - **mongoose**
-- **mongoose sequence**
+- **mongoose-sequence**
+- **bcrypt**
+- **express-async-handler**
 
 
 # DevDependencies

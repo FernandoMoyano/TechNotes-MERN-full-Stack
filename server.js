@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const connectDB = require("./config/dbConn");
-const { logEvents } = require("./middleware/logger");
+const mongoose=require("mongoose")
 const PORT = process.env.PORT || 3500;
 
 console.log(process.env.NODE_ENV);
@@ -25,7 +25,9 @@ app.use(cookieParser());
 
 app.use("/", express.static(path.join(__dirname, "public")));
 
-app.use("/", require("./routes/root"));
+app.use("/", require("./routes/root"))
+
+app.use("/users", require("./routes/useRoutes"))
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -48,7 +50,7 @@ mongoose.connection.once("open", () => {
 mongoose.connection.on("error", (err) => {
   console.log(err);
   logEvents(
-    `${err.no}:${err.code}\t${err.syscall}\t${err.hostnam}`,
-    mongoErrLog.log
+    `${err.no}:${err.code}\t${err.syscall}\t${err.hostname}`,
+    "mongoErrLog.log"
   );
 });
