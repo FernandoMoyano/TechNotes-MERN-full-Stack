@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 3500;
 
 console.log(process.env.NODE_ENV);
 
+connectDB();
+
 app.use(logger);
 
 app.use(cors(corsOptions));
@@ -38,4 +40,15 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+mongoose.connection.once("open", () => {
+  console.log("connected to mongoDB");
+  app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log(err);
+  logEvents(
+    `${err.no}:${err.code}\t${err.syscall}\t${err.hostnam}`,
+    mongoErrLog.log
+  );
+});
