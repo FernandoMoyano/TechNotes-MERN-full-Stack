@@ -32,6 +32,16 @@ const createNewUser = asyncHandler(async (req, res) => {
   if (duplicate) {
     return res.status(409).json({ message: "Duplicate username" });
   }
+  //Hash password
+  const hashedPwd = await bccrypt.hash(password, 10); //saltrounds
+  const userObject = { username, password: hashedPwd, roles };
+  //Create and store new user
+  const user = await User.create(userObject);
+  if (user) {
+    res.status(201).json({ message: `New user ${username} created` });
+  } else {
+    res.status(400).json({ message: `Invalid user data recived` });
+  }
 });
 
 /**
