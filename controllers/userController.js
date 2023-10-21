@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const Note = require("../models/Note");
 const asyncHandler = require("express-async-handler");
-const bccrypt = require("bccrypt");
+const bcrypt = require("bcrypt");
 
 /**
  * Description Get all users
@@ -10,7 +10,7 @@ const bccrypt = require("bccrypt");
  */
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select("-password").lean();
-  if (!users) {
+  if (!users?.length) {
     return res.status(400).json({ message: "No users found" });
   }
   res.json(users);
@@ -33,7 +33,7 @@ const createNewUser = asyncHandler(async (req, res) => {
     return res.status(409).json({ message: "Duplicate username" });
   }
   //Hash password
-  const hashedPwd = await bccrypt.hash(password, 10); //saltrounds
+  const hashedPwd = await bcrypt.hash(password, 10); //saltrounds
   const userObject = { username, password: hashedPwd, roles };
   //Create and store new user
   const user = await User.create(userObject);
@@ -56,9 +56,9 @@ const updateUser = asyncHandler(async (req, res) => {
   if (
     !id ||
     !username ||
-    Array.isArray(roles) ||
+    !Array.isArray(roles) ||
     !roles.length ||
-    typeof active !== "bolean"
+    typeof active !== "boolean"
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -80,7 +80,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   if (password) {
     //Hash pasword
-    user.password = await bccrypt.hash(password, 10); //salt rounds
+    user.password = await bcrypt.hash(password, 10); //salt rounds
   }
   const updatedUser = await user.save();
   res.json({ message: `${updatedUser.username} updated` });
@@ -96,8 +96,8 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (!id) {
     return res.status(400).json({ message: `User ID Required` });
   }
-  const notes = await Note.findOne({ user: id }).lean().exec();
-  if (notes?.length) {
+  const note = await Note.findOne({ user: id }).lean().exec();
+  if (note) {
     return res.status(400).json({ message: `User has assigned notes` });
   }
   const user = await User.findById(id).exec();
