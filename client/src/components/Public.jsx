@@ -26,7 +26,7 @@ const Public = () => {
         <p>Dueño : Juan D</p>
       </main>
       <footer>
-        <Link to="/login">Inicio de Sesion</Link>
+        <Link to="login">Inicio de Sesion</Link>
       </footer>
     </section>
   );

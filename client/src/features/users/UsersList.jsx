@@ -1,5 +1,7 @@
 const UsersList = () => {
-  return <div>UserList</div>;
+  return(
+    <div>UsersList</div>
+  ) 
 };
 
 export default UsersList;
