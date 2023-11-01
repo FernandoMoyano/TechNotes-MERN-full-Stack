@@ -31,7 +31,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetNoteQuery } = notesApiSlice;
+export const { useGetNotesQuery } = notesApiSlice;
 
 // returns the query result object
 export const selectNotesResult = notesApiSlice.endpoints.getnote.select();
