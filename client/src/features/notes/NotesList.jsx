@@ -11,16 +11,14 @@ const NotesList = () => {
   let content;
   if (isLoading) content = <p>Loading...</p>;
   if (isError) {
-    content = (
-      <p className={isError ? "errmsg" : "offscreen"}>{error?.data?.message}</p>
-    );
+    content = <p className="errmsg">{error?.data?.message}</p>;
   }
 
   if (isSuccess) {
     const { ids } = notes;
 
     const tableContent = ids?.length
-      ? ids.map((userId) => <Note key={userId} userId={userId} />)
+      ? ids.map((noteId) => <Note key={noteId} userId={noteId} />)
       : null;
 
     content = (
