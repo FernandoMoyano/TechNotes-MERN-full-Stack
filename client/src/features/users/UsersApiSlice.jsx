@@ -19,7 +19,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         });
         return usersAdapter.setAll(initialState, loadedUsers);
       },
-      providesTags: (result, error, arg) => {
+      providesTags: (result) => {
         if (result?.ids) {
           return [
             { type: "User", id: "LIST" },
@@ -27,6 +27,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
           ];
         } else return [{ type: "User", id: "LIST" }];
       },
+    }),
+    addNewUser: builder.mutation({
+      query: (initialUserData) => ({
+        url: "/users",
+        method: "POST",
+        body: {
+          ...initialUserData,
+        },
+      }),
+      invalidatesTags: [{ type: "User", id: "LIST" }],
     }),
   }),
 });
