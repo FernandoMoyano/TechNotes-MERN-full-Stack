@@ -9,7 +9,7 @@ const initialState = notesAdapter.getInitialState();
 
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    /* getNote */
+    /* get Note */
     getnote: builder.query({
       query: () => "/note",
       validateStatus: (response, result) => {
@@ -66,6 +66,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
+/* Hooks */
 export const {
   useGetNotesQuery,
   useAddNewNoteMutation,
