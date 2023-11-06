@@ -9,6 +9,7 @@ const initialState = notesAdapter.getInitialState();
 
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    /* getNote */
     getnote: builder.query({
       query: () => "/note",
       validateStatus: (response, result) => {
@@ -30,6 +31,17 @@ export const notesApiSlice = apiSlice.injectEndpoints({
           ];
         } else return [{ type: "User", id: "LIST" }];
       },
+    }),
+
+    addNewNote: builder.mutation({
+      query: (initialNote) => ({
+        url: "/notes",
+        method: "POST",
+        body: {
+          ...initialNote,
+        },
+      }),
+      invalidatesTags: [{ type: "Note", id: "LIST" }],
     }),
   }),
 });
