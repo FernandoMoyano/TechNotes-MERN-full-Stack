@@ -6,6 +6,7 @@ const initialState = usersAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    /* getUsers */
     getUsers: builder.query({
       query: () => "/users",
       validateStatus: (response, result) => {
@@ -19,7 +20,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         });
         return usersAdapter.setAll(initialState, loadedUsers);
       },
-      providesTags: (result) => {
+      providesTags: (result, err, arg) => {
         if (result?.ids) {
           return [
             { type: "User", id: "LIST" },
@@ -28,7 +29,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: "User", id: "LIST" }];
       },
     }),
-
+    /* addNewUser */
     addNewUser: builder.mutation({
       query: (initialUserData) => ({
         url: "/users",
@@ -39,7 +40,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [{ type: "User", id: "LIST" }],
     }),
-
+    /* updateUser */
     updateUser: builder.mutation({
       query: (initialUserData) => ({
         url: "/users",
@@ -47,6 +48,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: {
           ...initialUserData,
         },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
+    }),
+    /* deleteUser */
+    deleteUser: builder.mutation({
+      query: ({ id }) => ({
+        url: `/users`,
+        method: "DELETE",
+        body: { id },
       }),
       invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
     }),
