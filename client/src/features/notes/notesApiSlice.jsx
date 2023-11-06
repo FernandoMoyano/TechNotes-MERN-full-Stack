@@ -32,7 +32,7 @@ export const notesApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: "User", id: "LIST" }];
       },
     }),
-
+    /* Add New Note */
     addNewNote: builder.mutation({
       query: (initialNote) => ({
         url: "/notes",
@@ -42,6 +42,17 @@ export const notesApiSlice = apiSlice.injectEndpoints({
         },
       }),
       invalidatesTags: [{ type: "Note", id: "LIST" }],
+    }),
+    /* Update Note */
+    updateNote: builder.mutation({
+      query: (initialNote) => ({
+        url: "/notes",
+        method: "PATCH",
+        body: {
+          ...initialNote,
+        },
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Note", id: arg.id }],
     }),
   }),
 });
