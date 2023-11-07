@@ -20,6 +20,14 @@ const NewUserForm = () => {
   const [validPassword, setValidPassword] = useState(false);
   const [roles, setRoles] = useState(["Employee"]);
 
+  useEffect(() => {
+    setValidUsername(USER_REGEX.test(username));
+  }, [username]);
+
+  useEffect(() => {
+    setValidPassword(PWD_REGEX.test(password));
+  }, [password]);
+
   return <div>NewUserForm</div>;
 };
 
