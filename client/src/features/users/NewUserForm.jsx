@@ -48,6 +48,16 @@ const NewUserForm = () => {
     setRoles(values);
   };
 
+  const canSave =
+    [roles.length, validUsername, validPassword].every(Boolean) && !isLoading;
+
+  const onSaveUserClicked = async (e) => {
+    e.preventDefault();
+    if (canSave) {
+      await addNewUser({ username, password, roles });
+    }
+  };
+
   return <div>NewUserForm</div>;
 };
 
