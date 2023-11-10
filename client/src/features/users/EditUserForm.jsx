@@ -34,6 +34,68 @@ const EditUserForm = ({ user }) => {
     setValidPassword(PWD_REGEX.test(password));
   }, [password]);
 
+  useEffect(() => {
+    console.log(isSuccess);
+    if (isSuccess || isDelSuccess) {
+      setUsername("");
+      setPassword("");
+      setRoles([]);
+      navigate("/dash/users");
+    }
+  }, [isSuccess, isDelSuccess, navigate]);
+
+  const onUsernameChanged = (e) => setUsername(e.target.value);
+  const onPasswordChanged = (e) => setPassword(e.target.value);
+
+  const onRolesChanged = (e) => {
+    const values = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setRoles(values);
+  };
+
+  const onActiveChanged = () => setActive((prev) => !prev);
+
+  const onSaveUserClicked = async (e) => {
+    if (password) {
+      await updateUser({ id: user.id, username, password, roles, active });
+    } else {
+      await updateUser({ id: user.id, username, roles, active });
+    }
+  };
+
+  const onDeleteUserClicked = async () => {
+    await deleteUser({ id: user.id });
+  };
+
+  const options = Object.values(ROLES).map((role) => {
+    return (
+      <option key={role} value={role}>
+        {" "}
+        {role}
+      </option>
+    );
+  });
+
+  let canSave;
+  if (password) {
+    canSave =
+      [roles.length, validUsername, validPassword].every(Boolean) && !isLoading;
+  } else {
+    canSave = [roles.length, validUsername].every(Boolean) && !isLoading;
+  }
+
+  const errClass = isError || isDelError ? "errmsg" : "offscreen";
+  const validUserClass = !validUsername ? "form__input--incomplete" : "";
+  const validPwdClass =
+    password && !validPassword ? "form__input--incomplete" : "";
+  const validRolesClass = !roles.length
+    ? "form__input--incomplete"
+    : "";
+
+  const errContent = (error?.data?.message || delerror?.data?.message) ?? "";
+
   return <div>EditUserForm</div>;
 };
 
