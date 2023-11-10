@@ -14,6 +14,7 @@ const NewUserForm = () => {
 
   const navigate = useNavigate();
 
+  /* Estados */
   const [username, setUsername] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState("");
@@ -37,9 +38,12 @@ const NewUserForm = () => {
     }
   }, [isSuccess, navigate]);
 
+  /* Funcion para colocar el nombre de usuario */
   const onUsernameChanged = (e) => setUsername(e.target.value);
+  /* Funcion para establecer la contraseña */
   const onPasswordChanged = (e) => setPassword(e.target.value);
 
+  /* Funcion para establecer el rol */
   const onRolesChanged = (e) => {
     const values = Array.from(
       e.target.selectedOptions, //HTMLCollection
