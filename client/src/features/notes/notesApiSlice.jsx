@@ -10,26 +10,25 @@ const initialState = notesAdapter.getInitialState();
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     /* get Note */
-    getnote: builder.query({
+    getNotes: builder.query({
       query: () => "/note",
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError;
       },
-      keepUnusedDataFor: 5,
       transformResponse: (responseData) => {
-        const loadedNotes = responseData.map((user) => {
-          user.id = user._id;
-          return user;
+        const loadedNotes = responseData.map((note) => {
+          note.id = note._id;
+          return note;
         });
         return notesAdapter.setAll(initialState, loadedNotes);
       },
       providesTags: (result, error, arg) => {
         if (result?.ids) {
           return [
-            { type: "User", id: "LIST" },
-            ...result.ids.map((id) => ({ type: "User", id })),
+            { type: "Note", id: "LIST" },
+            ...result.ids.map((id) => ({ type: "Note", id })),
           ];
-        } else return [{ type: "User", id: "LIST" }];
+        } else return [{ type: "Note", id: "LIST" }];
       },
     }),
     /* Add New Note */
@@ -75,7 +74,7 @@ export const {
 } = notesApiSlice;
 
 // returns the query result object
-export const selectNotesResult = notesApiSlice.endpoints.getnote.select();
+export const selectNotesResult = notesApiSlice.endpoints.getNotes.select();
 
 // creates memoized selector
 const selectNotesData = createSelector(
@@ -85,7 +84,7 @@ const selectNotesData = createSelector(
 
 //getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
-  selectAll: selectAllNote,
+  selectAll: selectAllNotes,
   selectById: selectNoteById,
   selectIds: selectNserIds,
   // Pass in a selector that returns the note slice of state
