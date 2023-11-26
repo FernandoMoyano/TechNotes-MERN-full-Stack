@@ -51,6 +51,28 @@ const onSaveNoteClicked = async (e) => {
       await updateNote({ id: note.id, user: userId, title, text, completed })
   }
 }
+
+const onDeleteNoteClicked = async () => {
+  await deleteNote({ id: note.id })
+}
+
+const options = users.map(user => {
+  return (
+      <option
+          key={user.id}
+          value={user.id}
+
+      > {user.username}</option >
+  )
+})
+
+const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
+const validTitleClass = !title ? "form__input--incomplete" : ''
+const validTextClass = !text ? "form__input--incomplete" : ''
+
+const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
+
+
   return (
     <div>EditNoteForm</div>
   )
