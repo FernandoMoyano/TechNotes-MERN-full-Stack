@@ -40,21 +40,21 @@ const login = asyncHandler(async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  // Create secure cookie with refresh token
+  // Crear cookie segura con token de actualización
   res.cookie("jwt", refreshToken, {
-    httpOnly: true, //accessible only by web server
+    httpOnly: true, //accesible sólo por servidor web
     secure: true, //https
     sameSite: "None", //cross-site cookie
-    maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
+    maxAge: 7 * 24 * 60 * 60 * 1000, //Caducidad de la cookie: configurada para que coincida con rT
   });
 
-  // Send accessToken containing username and roles
+  //Enviar accessToken que contenga nombre de usuario y roles
   res.json({ accessToken });
 });
 
 // @desc Refresh
 // @route GET /auth/refresh
-// @access Public - because access token has expired
+// @access Public - porque el token de acceso ha caducado
 const refresh = (req, res) => {
   const cookies = req.cookies;
 
@@ -92,7 +92,7 @@ const refresh = (req, res) => {
 
 // @desc Logout
 // @route POST /auth/logout
-// @access Public - just to clear cookie if exists
+// @access Public - solo para borrar la cookie si existe
 const logout = (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(204); //No content
