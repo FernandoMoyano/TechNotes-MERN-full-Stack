@@ -21,7 +21,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
   let result = await baseQuery(args, api, extraOptions);
 
-  // If you want, handle other status codes, too
+  // Si lo desea, también maneje otros códigos de estado
   if (result?.error?.status === 403) {
     console.log("sending refresh token");
 
@@ -48,5 +48,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ["Note", "User"],
+  // eslint-disable-next-line no-unused-vars
   endpoints: (builder) => ({}),
 });
