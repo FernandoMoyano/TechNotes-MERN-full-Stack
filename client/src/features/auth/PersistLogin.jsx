@@ -16,6 +16,7 @@ const PersistLogin = () => {
     useRefreshMutation();
 
   useEffect(() => {
+    // eslint-disable-next-line no-undef
     if (effectRan.current === true || process.env.NODE_ENV !== "development") {
       // React 18 Strict Mode
 

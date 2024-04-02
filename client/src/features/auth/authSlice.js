@@ -8,6 +8,7 @@ const authSlice = createSlice({
       const { accessToken } = action.payload;
       state.token = accessToken;
     },
+    // eslint-disable-next-line no-unused-vars
     logOut: (state, action) => {
       state.token = null;
     },
